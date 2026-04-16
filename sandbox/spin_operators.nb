@@ -1,0 +1,26 @@
+(* Spin-1/2 operator basic definitions *)
+(* Setting hbar = 1 throughout *)
+
+sx = (1/2) * {{0, 1}, {1, 0}};
+sy = (1/2) * {{0, -I}, {I, 0}};
+sz = (1/2) * {{1, 0}, {0, -1}};
+
+raising  = sx + I*sy;
+lowering = sx - I*sy;
+
+(* Basis states *)
+spinUp   = {1, 0};
+spinDown = {0, 1};
+
+raising  . spinDown   (* should give spinUp = {1,0} *)
+raising  . spinUp     (* noop {0,0} *)
+lowering . spinUp     (* should give spinDown = {0,1} *)
+lowering . spinDown   (* noop {0,0} *)
+
+(* Verify commutation relations [si, sj] = i * epsilon_ijk * sk *)
+sx.sy - sy.sx == I*sz
+sy.sz - sz.sy == I*sx
+sz.sx - sx.sz == I*sy
+
+(* Verify Hermitian conjugate relationship *)
+Transpose[Conjugate[raising]] == lowering
